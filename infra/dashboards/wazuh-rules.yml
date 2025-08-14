@@ -1,0 +1,4 @@
+# Ejemplos de reglas personalizadas para Wazuh (si integras agentes)
+# - Detectar spikes de 5xx
+# - Detectar múltiples write ops desde misma IP
+# Rellena según tu despliegue Wazuh.

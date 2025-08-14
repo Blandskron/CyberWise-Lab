@@ -1,0 +1,31 @@
+groups:
+- name: api.rules
+  interval: 1m
+
+  rules:
+  - alert: TooMany5xx
+    expr: increase(api_errors_5xx_total[1h]) > 20
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Errores 5xx > 20 en 1h"
+      description: "Se detectó un número elevado de respuestas 5xx en la última hora."
+
+  - alert: HighP95Latency
+    expr: histogram_quantile(0.95, sum(rate(api_request_seconds_bucket[5m])) by (le)) > 1
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Latencia p95 > 1s"
+      description: "La latencia p95 del servicio supera 1 segundo sostenidamente."
+
+  - alert: ManyWritesSingleIP
+    expr: sum(increase(api_write_ops_total[10m])) by (ip) > 100
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Escrituras inusuales desde una IP"
+      description: "Más de 100 operaciones de escritura en 10 minutos desde una única IP."

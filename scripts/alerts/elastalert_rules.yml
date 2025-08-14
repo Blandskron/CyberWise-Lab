@@ -1,0 +1,14 @@
+# Alternativa si prefieres alertar desde ELK (usa ElastAlert o ElastAlert2)
+name: TooMany5xx
+type: frequency
+index: api-logs-*
+num_events: 20
+timeframe:
+  hours: 1
+filter:
+  - term:
+      status: 500
+alert:
+  - "email"
+email:
+  - "security@example.com"
