@@ -1,0 +1,10 @@
+filebeat.inputs:
+  - type: filestream
+    id: api-logs
+    paths: ["/logs/app.log"]
+    parsers:
+      - ndjson:
+          add_error_key: true
+
+output.logstash:
+  hosts: ["logstash:5044"]

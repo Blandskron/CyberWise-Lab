@@ -1,0 +1,6 @@
+# Exporta aquí tus dashboards cuando los crees en Kibana.
+# Ejemplo: tablero con paneles de:
+# - Tasa 5xx (increase(api_errors_5xx_total[1h]))
+# - Tasa 4xx (increase(api_errors_4xx_total[1h]))
+# - Latencia p95 (histogram_quantile 0.95)
+# - Write ops por IP (api_write_ops_total)
