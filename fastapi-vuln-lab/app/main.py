@@ -1,39 +1,32 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.middleware.sessions import SessionMiddleware
-from .config import settings
+
 from .middleware import ChaosMiddleware
 from .db import init_db
-from .routers import clients, auth, debug
+from .routers import clients
 
 init_db()
 
 app = FastAPI(
     title="FastAPI Vulnerable Lab",
-    version="0.1.0",
-    description="API intencionalmente vulnerable para prácticas de ciberseguridad (XSS, CSRF, SQLi, errores 500). No usar en producción."
+    version="0.2.0",
+    description=(
+        "API intencionalmente vulnerable para prácticas de ciberseguridad "
+        "(XSS, SQLi, errores 500). Sin autenticación ni endpoints de salud/metrics."
+    ),
 )
 
-# CORS excesivamente permisivo
+# CORS excesivamente permisivo (sin autenticación, súper riesgoso por diseño)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],           # cualquier origen
-    allow_credentials=True,        # junto con * -> riesgoso (eco del origin)
+    allow_origins=["*"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Cookie de sesión sin CSRF ni seguridad robusta
-app.add_middleware(SessionMiddleware, secret_key=settings.SECRET_KEY)
-
 # Inyección de fallos 500 "raros"
 app.add_middleware(ChaosMiddleware)
 
-@app.get("/health", tags=["meta"])
-def health():
-    return {"status": "ok"}
-
-# Routers
-app.include_router(auth.router)
+# Solo el CRUD (con vulnerabilidades)
 app.include_router(clients.router)
-app.include_router(debug.router)

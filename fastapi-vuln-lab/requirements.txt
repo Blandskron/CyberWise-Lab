@@ -3,3 +3,4 @@ uvicorn[standard]==0.30.6
 python-multipart==0.0.9
 pydantic==2.8.2
 starlette==0.38.2
+itsdangerous
